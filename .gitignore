@@ -1,0 +1,6 @@
+node_modules
+dist
+.env
+*.local
+# local gitleaks config (symlink to the internal standards template)
+.gitleaks.toml
