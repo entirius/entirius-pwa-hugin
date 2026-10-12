@@ -1,6 +1,23 @@
 {
   "name": "entirius-pwa-hugin",
   "version": "1.0.0",
+  "description": "Operator panel of Entirius, the open-source modular ecommerce platform: module registry and runtime config",
+  "keywords": [
+    "entirius",
+    "ecommerce",
+    "admin-panel",
+    "operations",
+    "vue",
+    "vite"
+  ],
+  "homepage": "https://docs.entirius.com/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/entirius/entirius-pwa-hugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/entirius/entirius-pwa-hugin/issues"
+  },
   "license": "MPL-2.0",
   "private": true,
   "type": "module",

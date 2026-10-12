@@ -1,74 +1,67 @@
-# Hugin — Superadmin Command Center
+# entirius-pwa-hugin
 
-Dark-themed platform administration panel. Consumes the [Munin](https://github.com/entirius/entirius-django-munin) module discovery API to show installed modules, their capabilities, and runtime configuration.
+The operator panel of Entirius, the open-source modular ecommerce platform: a single-page app for platform operators.
+It browses the module registry of the backend (the
+[entirius-django-munin](https://github.com/entirius/entirius-django-munin) module) and edits its runtime config
+entries.
 
-Named after Odin's raven Huginn (thought). Munin (memory) handles the backend.
+Named after Odin's raven Huginn (thought); Munin (memory) is the backend module it reads.
 
-## Prerequisites
+## What it does
 
-- Node.js 20+
-- npm 10+
-- Volkanos backend running on port 8000 (provides `/api/munin/v2/` and `/api/token/`)
+- Lists the modules installed in the backend with their capabilities.
+- Shows one module in detail: auto-detected capabilities and admin-controlled fields.
+- Creates, edits and deletes runtime config entries in a searchable table.
+- Signs in with a backend admin account; the session ends when the tab closes.
 
-## Quick Start (standalone)
+## Installation
 
-```bash
-cp .env.example .env
-npm install
-npm run dev
+```shell
+git clone https://github.com/entirius/entirius-pwa-hugin.git
+cd entirius-pwa-hugin
+npm ci
 ```
 
-Open `http://localhost:7070`. Log in with Django admin credentials.
+## Quick start
 
-## Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `API_PROXY_TARGET` | `http://localhost:8000` | Backend URL for Vite dev proxy |
-
-## Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Dev server with HMR on port 7070 |
-| `npm run build` | Production build to `dist/` |
-| `npm run preview` | Preview production build |
-
-## Architecture
-
-```
-src/
-├── api/client.js          Axios + JWT Bearer + 401 refresh queue
-├── stores/auth.js         Login/logout (sessionStorage tokens)
-├── stores/munin.js        Module list + ConfigEntry CRUD
-├── views/
-│   ├── Login.vue          Dark-themed login form
-│   ├── Dashboard.vue      Module grid (main view)
-│   ├── ModuleDetail.vue   Single module capabilities
-│   └── ConfigEntries.vue  Runtime config CRUD table
-└── components/            AppLayout, ModuleCard, CapabilityBadge, ConfigEntryRow
+```shell
+API_PROXY_TARGET=http://localhost:8000 npm run dev
 ```
 
-## API Endpoints
+Open `http://localhost:7070` and sign in with a backend admin account. The dev server proxies `/api` to
+`API_PROXY_TARGET` (default `http://localhost:8000`). The entirius-zeno harness serves the backend on
+`http://localhost:8100`.
 
-All requests proxy through Vite to the backend.
+## Requirements
 
-| Endpoint | Auth | Purpose |
-|----------|------|---------|
-| `POST /api/token/` | Public | JWT login |
-| `POST /api/token/refresh/` | Refresh token | Token refresh |
-| `GET /api/munin/v2/` | Public | List all modules |
-| `GET /api/munin/v2/{key}/` | Public | Single module |
-| `GET /api/munin/v2/admin/entries/` | Admin JWT | List config entries |
-| `POST /api/munin/v2/admin/entries/` | Admin JWT | Create config entry |
-| `PATCH /api/munin/v2/admin/entries/{key}/` | Admin JWT | Update config entry |
-| `DELETE /api/munin/v2/admin/entries/{key}/` | Admin JWT | Delete config entry |
+- Node.js 20 or newer, npm.
+- A running Entirius backend with the munin module (`/api/munin/v2/`) and token login (`/api/token/`).
 
-## Visual Identity
+## Documentation
 
-Dark only.
+- Developer docs (architecture, API, theming): https://github.com/entirius/entirius-pwa-hugin/tree/develop/docs
+- Entirius documentation: https://docs.entirius.com/
+- Releases: https://github.com/entirius/entirius-pwa-hugin/releases
 
-- Font: Readex Pro (200, 300, 400)
-- Page background: `#0A0A0F`
-- Accent: `#00ACC1` (teal)
-- No light mode
+## Part of Entirius
+
+Hugin is the panel for the people who run an Entirius installation; store managers work in the admin CMS.
+
+- Backend service: https://github.com/entirius/entirius-service-volkanos
+- Docker harness: https://github.com/entirius/entirius-zeno
+- Module registry it reads: https://github.com/entirius/entirius-django-munin
+- Admin CMS: https://github.com/entirius/entirius-pwa-cms
+
+## Development
+
+```shell
+npm run dev        # dev server with HMR on port 7070
+npm run build      # production build to dist/
+npm run preview    # preview the production build
+```
+
+Development and agent instructions: https://github.com/entirius/entirius-pwa-hugin/blob/develop/AGENTS.md
+
+## License
+
+Mozilla Public License 2.0 (MPL-2.0) — see https://github.com/entirius/entirius-pwa-hugin/blob/develop/LICENSE.
